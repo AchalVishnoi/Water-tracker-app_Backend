@@ -1,21 +1,23 @@
 package com.Achal.Water.tracker.app.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
+//import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class WaterIntake {
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
-    private LocalDate date;
-    private int waterConsumed;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;  // Relationship with User
+
+    private LocalDateTime date;
+    private Double waterConsumed;
 
     public Integer getId() {
         return id;
@@ -25,33 +27,34 @@ public class WaterIntake {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public int getWaterConsumed() {
+    public Double getWaterConsumed() {
         return waterConsumed;
     }
 
-    public void setWaterConsumed(int waterConsumed) {
+    public void setWaterConsumed(Double waterConsumed) {
         this.waterConsumed = waterConsumed;
     }
 
-    public WaterIntake(Integer id, Integer userId, LocalDate date, int waterConsumed) {
+    public WaterIntake(Integer id, User user, LocalDateTime date, Double waterConsumed) {
         this.id = id;
-        this.userId = userId;
+        this.user=user;
         this.date = date;
         this.waterConsumed = waterConsumed;
     }

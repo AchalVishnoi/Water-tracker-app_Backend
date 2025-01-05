@@ -152,5 +152,19 @@ public class User {
         this.isVerified = isVerified;
         this.detailsComplete = detailsComplete;
     }
+
+
+
+    public double getDailyTarget() {
+
+        double baseTarget = weight * 35;
+
+        if (age > 50) {
+            baseTarget -= 200;
+        }
+
+        return baseTarget;
+    }
+
 }
 
