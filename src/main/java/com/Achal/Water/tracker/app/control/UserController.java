@@ -18,7 +18,6 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
         return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
     }
-
     @PutMapping("/users/{userId}/add")
     public ResponseEntity<User> addDetails( @PathVariable Integer userId, @RequestBody UserDetailsRequest userDetails){
         return new ResponseEntity<>(userService.updateUserDetails(userId,userDetails),HttpStatus.OK);

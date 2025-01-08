@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 public class WaterIntake {
@@ -16,8 +17,9 @@ public class WaterIntake {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;  // Relationship with User
 
-    private LocalDateTime date;
-    private Double waterConsumed;
+    private LocalDate date;
+    private LocalTime time;
+    private Integer waterConsumed;
 
     public Integer getId() {
         return id;
@@ -36,26 +38,36 @@ public class WaterIntake {
         this.user = user;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Double getWaterConsumed() {
+    public Integer getWaterConsumed() {
         return waterConsumed;
     }
 
-    public void setWaterConsumed(Double waterConsumed) {
+    public void setWaterConsumed(Integer waterConsumed) {
         this.waterConsumed = waterConsumed;
     }
 
-    public WaterIntake(Integer id, User user, LocalDateTime date, Double waterConsumed) {
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+
+    public WaterIntake(Integer id, User user, LocalDate date, LocalTime time, Integer waterConsumed) {
         this.id = id;
-        this.user=user;
+        this.user = user;
         this.date = date;
+        this.time = time;
         this.waterConsumed = waterConsumed;
     }
 
