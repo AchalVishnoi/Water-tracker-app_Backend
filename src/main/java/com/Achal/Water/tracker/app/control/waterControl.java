@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.Optional;
 
 @RestController
@@ -18,29 +19,37 @@ public class waterControl {
 
     @Autowired
      WaterService waterService;
+    @Autowired
+    UserController userController;
 
 
-    @PostMapping("/users/{userId}/water/log")
+    @PostMapping("/api/users/water/log")
     public ResponseEntity<WaterIntakeResponse> logWaterIntake(
-            @PathVariable Integer userId,
-      @RequestBody WaterIntakeRequest request) throws Exception {
+            @RequestHeader("Authorization") String jwt,@RequestBody WaterIntakeRequest request) throws Exception {
+
+        Integer userId= Math.toIntExact(userController.getUserByJwt(jwt).getId());
 
         Integer amount= request.getWaterConsumed();
         return new ResponseEntity<>(waterService.logWaterIntake(userId,amount), HttpStatus.OK);
        }
 
 
-    @GetMapping("/api/users/{userId}/water/progress")
-    public ResponseEntity<DailyWaterProgress> getDailyProgress(@PathVariable Integer userId) throws Exception {
+    @GetMapping("/api/users/water/progress")
+    public ResponseEntity<DailyWaterProgress> getDailyProgress(@RequestHeader("Authorization") String jwt) throws Exception {
 
-            DailyWaterProgress progress = waterService.getDailyProgress(userId);
+        Integer userId= Math.toIntExact(userController.getUserByJwt(jwt).getId());
+
+        DailyWaterProgress progress = waterService.getDailyProgress(userId);
             return new ResponseEntity<>(progress,HttpStatus.OK);
 
     }
 
 
-    @GetMapping("/api/users/{userId}/water/getTodayRecord")
-    public ResponseEntity<Optional<FullWaterIntake>> fullDayRecord(@PathVariable Integer userId){
+    @GetMapping("/api/users/water/getTodayRecord")
+    public ResponseEntity<Optional<FullWaterIntake>> fullDayRecord(@RequestHeader("Authorization") String jwt) throws Exception {
+
+        Integer userId= Math.toIntExact(userController.getUserByJwt(jwt).getId());
+
         return  new ResponseEntity<>(waterService.getFullDayData(userId),HttpStatus.OK);
     }
 

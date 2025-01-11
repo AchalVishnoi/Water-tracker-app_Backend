@@ -16,18 +16,26 @@ public class UserController {
     UserService userService;
 
 
-    @PutMapping("/api/users/{userId}/add")
-    public ResponseEntity<User> addDetails( @PathVariable Integer userId, @RequestBody UserDetailsRequest userDetails){
+    @PutMapping("/api/users/add")
+    public ResponseEntity<User> addDetails( @RequestHeader("Authorization") String jwt, @RequestBody UserDetailsRequest userDetails) throws Exception {
+
+        Integer userId= Math.toIntExact(getUserByJwt(jwt).getId());
         return new ResponseEntity<>(userService.updateUserDetails(userId,userDetails),HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/users/{userId}")
-    public void deleteAccount(@PathVariable Integer userId){
+    @DeleteMapping("/api/users/delete")
+    public void deleteAccount(@RequestHeader("Authorization") String jwt) throws Exception {
+
+        Integer userId= Math.toIntExact(getUserByJwt(jwt).getId());
         userService.deleteUser(userId);
     }
 
-
-
+@GetMapping ("/api/users/profile")
+    public User getUserByJwt(@RequestHeader("Authorization") String jwt) throws Exception {
+        User user=userService.findUserByJwt(jwt);
+        user.setPassword("********");
+        return user;
+    }
 
 
 

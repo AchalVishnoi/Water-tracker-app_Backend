@@ -10,5 +10,6 @@ public interface UserService {
       public User updateUserDetails(Integer userId, UserDetailsRequest detailsRequest);
 
       public User findUserByEmail(String email) throws Exception;
+      public User findUserByJwt(String jwt) throws Exception;
 
 }

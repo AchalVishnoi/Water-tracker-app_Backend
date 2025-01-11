@@ -65,8 +65,15 @@ public class UserServicesImplimentation  implements UserService {
                 .orElseThrow(() -> new Exception("User with email " + email + " not found"));
     }
 
+    @Override
+    public User findUserByJwt(String jwt) throws Exception {
 
+        String email=JwtProvider.getEmailFromJwtToken(jwt);
 
+        Optional<User> user=userRepo.findByEmail(email);
+
+        return user.get();
+    }
 
 
 }
