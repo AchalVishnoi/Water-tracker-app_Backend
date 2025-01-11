@@ -3,6 +3,7 @@ package com.Achal.Water.tracker.app.userServices;
 import com.Achal.Water.tracker.app.models.*;
 import com.Achal.Water.tracker.app.repo.WaterRepo;
 import com.Achal.Water.tracker.app.repo.fullWaterIntakeRepo;
+import com.Achal.Water.tracker.app.response.WaterIntakeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,7 @@ public class WaterServiceImplimentation implements WaterService{
 
 
 
-        double progress = (totalConsumed / target) * 100;
+        double progress =(totalConsumed>=target)?100:(totalConsumed / target) * 100;
 
         return new WaterIntakeResponse(
                 "Water intake logged successfully.",

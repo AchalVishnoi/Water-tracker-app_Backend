@@ -4,12 +4,10 @@ package com.Achal.Water.tracker.app.control;
 import com.Achal.Water.tracker.app.models.DailyWaterProgress;
 import com.Achal.Water.tracker.app.models.FullWaterIntake;
 import com.Achal.Water.tracker.app.models.WaterIntakeRequest;
-import com.Achal.Water.tracker.app.models.WaterIntakeResponse;
+import com.Achal.Water.tracker.app.response.WaterIntakeResponse;
 import com.Achal.Water.tracker.app.userServices.WaterService;
-import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +30,7 @@ public class waterControl {
        }
 
 
-    @GetMapping("/users/{userId}/water/progress")
+    @GetMapping("/api/users/{userId}/water/progress")
     public ResponseEntity<DailyWaterProgress> getDailyProgress(@PathVariable Integer userId) throws Exception {
 
             DailyWaterProgress progress = waterService.getDailyProgress(userId);
@@ -41,7 +39,7 @@ public class waterControl {
     }
 
 
-    @GetMapping("/users/{userId}/water/getTodayRecord")
+    @GetMapping("/api/users/{userId}/water/getTodayRecord")
     public ResponseEntity<Optional<FullWaterIntake>> fullDayRecord(@PathVariable Integer userId){
         return  new ResponseEntity<>(waterService.getFullDayData(userId),HttpStatus.OK);
     }

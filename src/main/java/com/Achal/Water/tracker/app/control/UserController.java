@@ -2,6 +2,7 @@ package com.Achal.Water.tracker.app.control;
 
 import com.Achal.Water.tracker.app.models.User;
 import com.Achal.Water.tracker.app.models.UserDetailsRequest;
+import com.Achal.Water.tracker.app.models.UserRequest;
 import com.Achal.Water.tracker.app.userServices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,16 +15,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        return new ResponseEntity<>(userService.registerUser(user), HttpStatus.CREATED);
-    }
-    @PutMapping("/users/{userId}/add")
+
+    @PutMapping("/api/users/{userId}/add")
     public ResponseEntity<User> addDetails( @PathVariable Integer userId, @RequestBody UserDetailsRequest userDetails){
         return new ResponseEntity<>(userService.updateUserDetails(userId,userDetails),HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/api/users/{userId}")
     public void deleteAccount(@PathVariable Integer userId){
         userService.deleteUser(userId);
     }

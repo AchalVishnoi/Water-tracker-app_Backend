@@ -1,4 +1,4 @@
-package com.Achal.Water.tracker.app.models;
+package com.Achal.Water.tracker.app.response;
 
 public class WaterIntakeResponse {
 

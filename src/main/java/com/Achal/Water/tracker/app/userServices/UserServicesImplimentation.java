@@ -1,10 +1,17 @@
 package com.Achal.Water.tracker.app.userServices;
 
+import com.Achal.Water.tracker.app.config.JwtProvider;
 import com.Achal.Water.tracker.app.models.User;
 import com.Achal.Water.tracker.app.models.UserDetailsRequest;
+import com.Achal.Water.tracker.app.models.UserRequest;
 import com.Achal.Water.tracker.app.repo.UserRepo;
 
+import com.Achal.Water.tracker.app.response.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,22 +21,7 @@ public class UserServicesImplimentation  implements UserService {
     @Autowired
     UserRepo userRepo;
 
-    @Override
-    public User registerUser(User user) {
 
-        User newUser=new User();
-
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
-        newUser.setId(user.getId());
-
-        newUser.setDetailsComplete(true);
-
-        return userRepo.save(newUser);
-
-    }
 
     @Override
     public User updateUserDetails(Integer userId, UserDetailsRequest detailsRequest) {

@@ -2,9 +2,7 @@ package com.Achal.Water.tracker.app.userServices;
 
 import com.Achal.Water.tracker.app.models.DailyWaterProgress;
 import com.Achal.Water.tracker.app.models.FullWaterIntake;
-import com.Achal.Water.tracker.app.models.WaterIntake;
-import com.Achal.Water.tracker.app.models.WaterIntakeResponse;
-import org.springframework.stereotype.Service;
+import com.Achal.Water.tracker.app.response.WaterIntakeResponse;
 
 import java.util.Optional;
 
