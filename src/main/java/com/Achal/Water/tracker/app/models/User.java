@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import java.time.LocalTime;
 
 @Entity
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; // Primary key for database persistence
+    @Column(name = "id")
+    private Long id;
 
     private String firstName;
 
@@ -34,6 +36,10 @@ public class User {
     private boolean isVerified = false; // To track email verification status
 
     private boolean detailsComplete=false;
+
+    private double height;
+
+    private double bmi;
 
 
     public void setDetailsComplete(boolean detailsComplete) {
@@ -136,7 +142,8 @@ public class User {
         this.isVerified = isVerified;
     }
 
-    public User(Long id, String firstName, String lastName, String email, int age, String gender, LocalTime wakeUpTime, LocalTime sleepTime, double weight, String password, boolean isVerified, boolean detailsComplete) {
+    public User(Long id, String firstName, String lastName, String email, int age, String gender, LocalTime wakeUpTime, LocalTime sleepTime, double weight, String password, boolean isVerified, boolean detailsComplete,double height,double bmi
+                ) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -151,6 +158,8 @@ public class User {
         this.password = password;
         this.isVerified = isVerified;
         this.detailsComplete = detailsComplete;
+        this.height=height;
+        this.bmi=bmi;
     }
 
 
@@ -166,5 +175,20 @@ public class User {
         return baseTarget;
     }
 
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getBmi() {
+        return bmi;
+    }
+
+    public void setBmi(double bmi) {
+        this.bmi = bmi;
+    }
 }
 

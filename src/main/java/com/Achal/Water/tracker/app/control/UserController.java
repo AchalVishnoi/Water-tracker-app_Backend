@@ -3,6 +3,7 @@ package com.Achal.Water.tracker.app.control;
 import com.Achal.Water.tracker.app.models.User;
 import com.Achal.Water.tracker.app.models.UserDetailsRequest;
 import com.Achal.Water.tracker.app.models.UserRequest;
+import com.Achal.Water.tracker.app.response.response;
 import com.Achal.Water.tracker.app.userServices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,10 @@ public class UserController {
     UserService userService;
 
 
-    @PutMapping("/api/users/add")
-    public ResponseEntity<User> addDetails( @RequestHeader("Authorization") String jwt, @RequestBody UserDetailsRequest userDetails) throws Exception {
+    @PutMapping("/users/add")
+    public ResponseEntity<response> addDetails( @RequestBody UserDetailsRequest userDetails) throws Exception {
 
-        Integer userId= Math.toIntExact(getUserByJwt(jwt).getId());
+        Integer userId= userDetails.getUserId();
         return new ResponseEntity<>(userService.updateUserDetails(userId,userDetails),HttpStatus.OK);
     }
 
@@ -28,14 +29,15 @@ public class UserController {
 
         Integer userId= Math.toIntExact(getUserByJwt(jwt).getId());
         userService.deleteUser(userId);
-    }
+     }
 
-@GetMapping ("/api/users/profile")
-    public User getUserByJwt(@RequestHeader("Authorization") String jwt) throws Exception {
+      @GetMapping ("/api/users/profile")
+     public User getUserByJwt(@RequestHeader("Authorization") String jwt) throws Exception {
         User user=userService.findUserByJwt(jwt);
-        user.setPassword("********");
+
+
         return user;
-    }
+     }
 
 
 

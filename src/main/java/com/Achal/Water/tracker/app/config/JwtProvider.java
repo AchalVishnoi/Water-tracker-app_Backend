@@ -14,7 +14,7 @@ public class JwtProvider {
     private static SecretKey key= Keys.hmacShaKeyFor(JwtConstants.SECRET_KEY.getBytes());
     public static String generateToken(Authentication auth){
         String jwt= Jwts.builder().
-                setIssuer("waterTrackerApp").setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime()+86400000))
+                setIssuer("waterTrackerApp").setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime()+900000))
                 .claim("email",auth.getName())
                 .signWith(key)
                 .compact();

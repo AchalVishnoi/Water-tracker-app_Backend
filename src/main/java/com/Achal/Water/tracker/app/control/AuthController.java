@@ -6,6 +6,7 @@ import com.Achal.Water.tracker.app.models.User;
 import com.Achal.Water.tracker.app.models.UserRequest;
 import com.Achal.Water.tracker.app.repo.UserRepo;
 import com.Achal.Water.tracker.app.response.AuthResponse;
+import com.Achal.Water.tracker.app.response.CreateUserResponse;
 import com.Achal.Water.tracker.app.userServices.CustomerUserDetailService;
 import com.Achal.Water.tracker.app.userServices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
+
+import static org.springframework.boot.context.properties.source.ConfigurationPropertyName.isValid;
 
 @RestController
 
@@ -38,14 +42,14 @@ public class AuthController {
 
 
     @PostMapping(value = "/users/signup")
-    public ResponseEntity<AuthResponse> createUser(@RequestBody UserRequest user) {
+    public ResponseEntity<CreateUserResponse> createUser(@RequestBody UserRequest user) {
         try {
             String password = passwordEncoder.encode(user.getPassword());
             user.setPassword(password);
 
             Optional<User> isExist = userRepo.findByEmail(user.getEmail());
             if (isExist.isPresent()) {
-                return new ResponseEntity<>(new AuthResponse("Email already in use", null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new CreateUserResponse(null,"email already exist"), HttpStatus.BAD_REQUEST);
             }
 
             User newUser = new User();
@@ -56,26 +60,27 @@ public class AuthController {
 
             User savedUser = userRepo.save(newUser);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(), savedUser.getPassword());
-            String token = JwtProvider.generateToken(authentication);
-
-            return new ResponseEntity<>(new AuthResponse("User registered successfully", token), HttpStatus.CREATED);
+            return new ResponseEntity<>(new CreateUserResponse(savedUser.getId(),"create user successful"), HttpStatus.CREATED);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(new AuthResponse("An error occurred: " + e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CreateUserResponse(null,"error occured:"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 
 
 @PostMapping("/users/signin")
-    public ResponseEntity<AuthResponse> signIn(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<AuthResponse> signIn(@RequestBody LoginRequest loginRequest) throws Exception {
 
         Authentication authentication;
         authentication = authentication(loginRequest.getEmail(),loginRequest.getPassword());
         String token = JwtProvider.generateToken(authentication);
 
-        return new ResponseEntity<>(new AuthResponse("Login successfully", token), HttpStatus.CREATED);
+
+
+
+
+    return new ResponseEntity<>(new AuthResponse("Login successfully", token), HttpStatus.CREATED);
 
     }
 
@@ -92,6 +97,9 @@ public class AuthController {
         return new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
 
     }
+
+
+
 
 
 }

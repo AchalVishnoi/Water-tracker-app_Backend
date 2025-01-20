@@ -7,6 +7,7 @@ import com.Achal.Water.tracker.app.models.UserRequest;
 import com.Achal.Water.tracker.app.repo.UserRepo;
 
 import com.Achal.Water.tracker.app.response.AuthResponse;
+import com.Achal.Water.tracker.app.response.response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +25,7 @@ public class UserServicesImplimentation  implements UserService {
 
 
     @Override
-    public User updateUserDetails(Integer userId, UserDetailsRequest detailsRequest) {
+    public response updateUserDetails(Integer userId, UserDetailsRequest detailsRequest) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -35,8 +36,12 @@ public class UserServicesImplimentation  implements UserService {
         user.setWakeUpTime(detailsRequest.getWakeUpTime());
         user.setSleepTime(detailsRequest.getSleepTime());
         user.setDetailsComplete(true);
+        user.setHeight(detailsRequest.getHeight());
+        double bmi=detailsRequest.getWeight()*10000/(detailsRequest.getHeight()*detailsRequest.getHeight());
+         user.setBmi(bmi);
 
-        return userRepo.save(user);
+        userRepo.save(user);
+        return new response("added successful","success");
 
 
     }

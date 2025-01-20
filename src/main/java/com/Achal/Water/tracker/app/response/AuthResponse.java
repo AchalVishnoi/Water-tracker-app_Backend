@@ -24,4 +24,5 @@ public class AuthResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }
